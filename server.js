@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+require('dotenv').config();
+
+const port = process.env.PORT;
 
 const authRoutes = require('./routes/auth');
 const usersRoutes = require('./routes/users');
@@ -20,4 +22,3 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
-
