@@ -1,7 +1,7 @@
 const { where } = require('sequelize');
 const db = require('../models');
 const User = db.User;
-const hash = require('object-hash');
+const bcrypt = require('bcrypt');
 
 exports.getAllUsers = async (req,res) => {
     try {
@@ -19,7 +19,7 @@ exports.getAllUsers = async (req,res) => {
 exports.createUser = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body;
-        const hashedPassword = hash(password);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({ 
             firstName, 
