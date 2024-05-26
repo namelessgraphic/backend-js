@@ -14,7 +14,6 @@
     "env-keys-config": "file:dependencies/env-keys-config-0.0.1.tgz",
     "express": "^4.19.2",
     "jose": "^5.3.0",
-    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.7",
     "sequelize": "^6.37.3"
   },
