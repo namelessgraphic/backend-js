@@ -1,8 +1,11 @@
 const db = require('../models');
 const User = db.User;
 const jwt = require('jsonwebtoken');
-const secretKey = 'f30e83891f1db5289bea6ccf60b5ea26661edb81b611b401ddf4f4088f3d58ad';
+const jose = require('jose');
 const bcrypt = require('bcrypt');
+
+const alg = 'HS256';
+const secret = process.env.SECRET_KEY;
 
 exports.authAccess = async (req, res) => {
     try {
@@ -22,7 +25,11 @@ exports.authAccess = async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, user.password);
 
         if (passwordMatch) {
-            const token = jwt.sign({user} , secretKey, { expiresIn: "1h" });
+            const token = new jose.SignJWT({ 'urn:example:claim': true })
+                .setProtectedHeader({ alg })
+                .setIssuedAt()
+                .setExpirationTime('1h')
+                .sign(secret);
             return res.status(200).json({message: 'Token created successfully', token});
         } else {
             return res.status(401).json({ message: 'The password provided is incorrect' });
